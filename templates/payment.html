@@ -1,0 +1,141 @@
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+
+            <form id="search-form" data-parsley-validate class="form-horizontal form-label-left">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama 
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label class="form-control col-md-7 col-xs-12">Muhammad Muflih Tsaqif
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Kelas 
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <label class="form-control col-md-7 col-xs-12">SD 6
+                        </label>
+                    </div>
+                </div>
+            </form>
+
+            
+            <div class="container">
+                <table id="myTable" class=" table order-list">
+                <thead>
+                    <tr>
+                        <td>Jenis Pembayaran</td>
+                        <td>Bulan</td>
+                        <td>Jumlah</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sm-4">
+                            <select class="form-control" id="paymentType0" name="paymentType0">
+                                <option value="BG">BG</option>
+                                <option value="JEMPUTAN">JEMPUTAN</option>
+                                <option VALUE="EKSTRAKURIKULER">EKSTRAKURIKULER</option>
+                                <option value="JH">JH</option>
+                                <option value="DPP">DPP</option>
+                            </select>
+                        </td>
+                        <td class="col-sm-4">
+                            <select class="form-control" id="month">
+                                <option>Januari</option>
+                                <option>Februari</option>
+                                <option>Maret</option>
+                                <option>April</option>
+                                <option>Mei</option>
+                            </select>';
+                        </td>
+                        <td class="col-sm-3">
+                            <input type="text" name="amount"  class="form-control"/>
+                        </td>
+                        <td class="col-sm-2"><a class="deleteRow"></a>
+            
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" style="text-align: left;">
+                            <input type="button" class="btn btn-lg btn-block " id="addrow" value="Tambah Baris" />
+                        </td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </tfoot>
+            </table>
+            </div>
+
+            <br>
+            <div class="form-group">
+              <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button type="button" class="btn btn-success" onclick="doPayment()">Submit</button>
+              </div>
+            </div>
+            <br>
+
+        </div>
+        <!-- /page content -->
+    
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}
+
+<script>
+
+function doPayment() {
+    $('.bs-notification-modal').modal('show');
+}
+
+function generatePaymentType(counter) {
+
+    var str = '<select class="form-control" id="paymentType"' + counter + 'name="paymentType"' + counter + '>';
+    str += '<option value="BG">BG</option>';
+    str += '<option value="JEMPUTAN">JEMPUTAN</option>';
+    str += '<option VALUE="EKSTRAKURIKULER">EKSTRAKURIKULER</option>';
+    str += '<option value="JH">JH</option>';
+    str += '<option value="DPP">DPP</option>';
+    str += '</select>';
+    return str;
+}
+
+function generateMonths(counter) {
+    var str = '<select class="form-control" id="month">';
+    str += "<option>Januari</option>";
+    str += "<option>Februari</option>";
+    str += "<option>Maret</option>";
+    str += "<option>April</option>";
+    str += "<option>Mei</option>";
+    str += '</select>';
+    return str;
+}
+
+$(document).ready(function () {
+    var counter = 0;
+
+    $("#addrow").on("click", function () {
+        var newRow = $("<tr>");
+        var cols = "";
+
+        cols += '<td>' + generatePaymentType(counter) + '</td>';
+        cols += '<td>' + generateMonths(counter) + '</td>';
+        cols += '<td><input type="text" class="form-control" name="amount' + counter + '"/></td>';
+        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+        newRow.append(cols);
+        $("table.order-list").append(newRow);
+        counter++;
+    });
+
+    $("table.order-list").on("click", ".ibtnDel", function (event) {
+        $(this).closest("tr").remove();       
+        counter -= 1
+    });
+
+});
+</script>

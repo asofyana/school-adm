@@ -1,0 +1,103 @@
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+
+            <form id="search-form" data-parsley-validate class="form-horizontal form-label-left">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nama <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="name" required="required" class="form-control col-md-7 col-xs-12">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="grade">Kelas 
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select id="grade" class="form-control" required>
+                            <option value="">Silahkan Pilih</option>
+                            <option value="TK_A">TK A</option>
+                            <option value="TK_B">TK B</option>
+                            <option value="SD_1">SD 1</option>
+                            <option value="SD_2">SD 2</option>
+                            <option value="SD_3">SD 3</option>
+                            <option value="SD_4">SD 4</option>
+                            <option value="SD_5">SD 5</option>
+                            <option value="SD_6">SD 6</option>
+                          </select>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <button type="button" class="btn btn-success" onclick="searchStudent()">Cari</button>
+                  </div>
+                </div>
+                <br>
+            </form>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_content">
+                            <table id="search-student-datatable" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                <th>Nama</th>
+                                <th>Kelas</th>
+                                </tr>
+                            </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    
+        </div>
+        <!-- /page content -->
+    
+    
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}
+
+<script>
+
+function searchStudent() {
+    var name = $('#startDate').val();
+    var grade = $('#startDate').val();
+    console.log('name: ' + name);
+    console.log('grade: ' + grade);
+
+    $('#search-student-datatable').dataTable().fnDestroy();
+	$('#search-student-datatable').DataTable({
+		"processing" : true,
+		"columns" : [
+            { data: "fullName" },   
+            { data: "grade" },   
+        ],
+		"ajax" : {
+			type : "POST",
+			url : '/search-student-api',
+			data : {fullName : name,
+					grade : grade},
+			"dataSrc" : function(data) {
+				console.log(data);
+				if (data) {
+					var rows = data;
+					for (var a = 0; a < rows.length; a++) {
+						rows[a].fullName = '<a href="payment?id=' + rows[a].id + '">' + rows[a].fullName + '</a>';
+					}
+					return rows;
+				}
+			},
+			error : ajaxErrorHandler
+		}
+	});
+
+}
+
+</script>
