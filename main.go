@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/asofyana/school-adm/routes"
 	"github.com/gin-gonic/gin"
 )
@@ -22,6 +24,7 @@ func main() {
 	routes.InitializeRoutes(router)
 
 	// Start serving the application
-	router.Run(":8080")
+	port := os.Getenv("PORT")
+	router.Run(":" + port)
 
 }
