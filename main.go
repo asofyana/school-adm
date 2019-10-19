@@ -22,6 +22,6 @@ func main() {
 	routes.InitializeRoutes(router)
 
 	// Start serving the application
-	router.Run(":80")
+	router.Run(":8080")
 
 }
