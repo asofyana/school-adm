@@ -2,8 +2,9 @@ package routes
 
 import (
 	"net/http"
+
+	"github.com/asofyana/school-adm/middleware"
 	"github.com/gin-gonic/gin"
-	"../middleware"
 )
 
 func showLoginPage(c *gin.Context) {
@@ -22,11 +23,10 @@ func performLogin(c *gin.Context) {
 	if authStatus {
 		c.HTML(http.StatusOK, "home.html", nil)
 	} else {
-		c.HTML(http.StatusOK, "login.html", gin.H{ "message" : authMessage })
+		c.HTML(http.StatusOK, "login.html", gin.H{"message": authMessage})
 	}
 
 }
-
 
 func logout(c *gin.Context) {
 

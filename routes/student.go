@@ -3,7 +3,7 @@ package routes
 import (
 	"net/http"
 
-	"../models"
+	"github.com/asofyana/school-adm/models"
 	"github.com/gin-gonic/gin"
 )
 
